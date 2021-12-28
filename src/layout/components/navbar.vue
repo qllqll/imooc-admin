@@ -1,5 +1,5 @@
 <template>
-  <div class=""></div>
+  <div class="">navbar</div>
 </template>
 
 <script setup>
