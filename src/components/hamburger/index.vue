@@ -14,7 +14,7 @@ const toggleClick = () => {
 
 const store = useStore()
 const icon = computed(() => {
-  return store.getters.sidebarOpened ? 'hamgurger-opened' : 'hamgurger-closed'
+  return store.getters.sidebarOpened ? 'hamburger-opened' : 'hamburger-closed'
 })
 </script>
 

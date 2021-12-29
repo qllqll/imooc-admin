@@ -39,7 +39,9 @@ export const generateMenus = (routes, basePath = '') => {
   const result = []
   routes.forEach((item) => {
     //  不存在children && 不存meta 剔除
-    if (isNull(item.children) && isNull(item.meta)) return
+    if (isNull(item.children) && isNull(item.meta)) {
+      return
+    }
     // 存在children 不存在meta || 存在children 存在meta
     if (isNull(item.meta) && !isNull(item.children)) {
       result.push(...generateMenus(item.children))
