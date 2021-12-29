@@ -1,5 +1,8 @@
 <template>
-  <div class="app-wrapper">
+  <div
+    class="app-wrapper"
+    :class="[$store.getters.sidebarOpened ? 'open-sidebar' : 'hide-sidebar']"
+  >
     <!--  左侧menu -->
     <sidebar
       class="sidebar-container"
@@ -8,7 +11,7 @@
     <div class="main-container">
       <div class="fixed-header">
         <!--  顶部navbar -->
-        <navbar></navbar>
+        <navbar />
       </div>
       <app-main>
         <!--  内容区 -->
@@ -41,5 +44,10 @@ import variables from '@/styles/variables.scss'
   right: 0;
   z-index: 9;
   width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
+}
+
+.fixed-header .fixed-header {
+  width: calc(100% - #{$hideSideBarWidth});
 }
 </style>
