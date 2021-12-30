@@ -26,6 +26,7 @@ const routers = computed(() => {
   const fRoutes = filterRoutes(router.getRoutes())
   return generateMenus(fRoutes)
 })
+
 // 默认激活项
 const route = useRoute()
 const activeMenu = computed(() => {
