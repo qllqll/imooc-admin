@@ -3,6 +3,7 @@
     <hamburger class="hamburger-container"></hamburger>
     <beadcrumb class="beadcrumb-container"></beadcrumb>
     <div class="right-menu">
+      <theme-select class="right-menu-item hover-effect"></theme-select>
       <!--      国际化-->
       <lang-select class="right-menu-item hover-effect"></lang-select>
       <!--      头像-->
@@ -39,6 +40,7 @@ import Hamburger from '@/components/hamburger'
 import Beadcrumb from '@/components/beadcrumb'
 import { useStore } from 'vuex'
 import LangSelect from '@/components/lange-select'
+import ThemeSelect from '@/components/theme-select'
 
 const store = useStore()
 const logout = () => {
