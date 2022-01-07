@@ -1,7 +1,7 @@
 import { login, getUserInfo } from '@/api/sys'
 import md5 from 'md5'
-import { setItem, getItem, removeAllItem } from '@/utils/storage'
-import { TOKEN } from '@/constant'
+import { setItem, getItem, removeItem } from '@/utils/storage'
+import { TOKEN, TIME_STAMP } from '@/constant'
 import router from '@/router'
 import { setTimeStamp } from '@/utils/auth'
 
@@ -54,7 +54,11 @@ export default {
     logout() {
       this.commit('user/setToken', '')
       this.commit('user/setUserInfo', {})
-      removeAllItem()
+      // removeAllItem()
+      // 不应该清除主题色 及 语言
+      removeItem(TOKEN)
+      removeItem(TIME_STAMP)
+
       //  清理权限相关配置
       router.push('/login')
     }

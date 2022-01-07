@@ -3,6 +3,8 @@
     <hamburger class="hamburger-container"></hamburger>
     <beadcrumb class="beadcrumb-container"></beadcrumb>
     <div class="right-menu">
+      <header-search class="right-menu-item hover-effect"></header-search>
+      <screenfull class="right-menu-item hover-effect"></screenfull>
       <theme-select class="right-menu-item hover-effect"></theme-select>
       <!--      国际化-->
       <lang-select class="right-menu-item hover-effect"></lang-select>
@@ -41,6 +43,8 @@ import Beadcrumb from '@/components/beadcrumb'
 import { useStore } from 'vuex'
 import LangSelect from '@/components/lange-select'
 import ThemeSelect from '@/components/theme-select'
+import screenfull from '@/components/screenfull'
+import HeaderSearch from '@/components/header-search'
 
 const store = useStore()
 const logout = () => {
@@ -93,6 +97,7 @@ const logout = () => {
       position: relative;
       .el-avatar {
         --el-avatar-background-color: none;
+        --el-avatar-bg-color: none;
         margin-right: 12px;
       }
     }
