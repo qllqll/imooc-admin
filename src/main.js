@@ -3,11 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './i18n'
+import '@/styles/index.scss'
 
 // 初始化样式表
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import '@/styles/index.scss'
 
 // 导入svgIcon
 import install from '@/icons/svg/index.js'

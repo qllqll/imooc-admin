@@ -1,39 +1,39 @@
 <template>
-  <div class="">
-    个人中心
-    <el-tooltip
-      class="box-item"
-      :effect="effect"
-      content="Top Left prompts info"
-    >
-      <svg-icon icon="language"></svg-icon>
-    </el-tooltip>
-    <el-button>Default</el-button>
-    <el-button type="primary">Primary</el-button>
-    <el-button type="success">Success</el-button>
-    <el-button type="info">Info</el-button>
-    <el-button type="warning">Warning</el-button>
-    <el-button type="danger">Danger</el-button>
-    <el-button>中文</el-button>
-
-    <div>
-      <el-radio v-model="radio1" label="1" size="large">Option 1</el-radio>
-      <el-radio v-model="radio1" label="2" size="large">Option 2</el-radio>
-    </div>
+  <div class="my-container">
+    <el-row>
+      <el-col :span="6">
+        <project-card class="project-card"> </project-card>
+      </el-col>
+      <el-col :span="18">
+        <el-card>
+          <el-tabs v-model="activeName">
+            <el-tab-pane :label="$t('profile.feature')" name="feature">
+              <feature></feature>
+            </el-tab-pane>
+            <el-tab-pane :label="$t('profile.chapter')" name="chapter">
+              <chapter></chapter>
+            </el-tab-pane>
+            <el-tab-pane :label="$t('profile.author')" name="author">
+              <auther></auther>
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-defineProps({
-  effect: {
-    type: String,
-    default: 'dark',
-    validator: function (value) {
-      return ['dark', 'light'].indexOf(value) !== -1
-    }
-  }
-})
+import ProjectCard from './components/project-card'
+import Feature from './components/feature'
+import Chapter from './components/chapter'
+import Auther from './components/auther'
+import { ref } from 'vue'
+const activeName = ref('feature')
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.project-card {
+  margin-right: 20px;
+}
+</style>

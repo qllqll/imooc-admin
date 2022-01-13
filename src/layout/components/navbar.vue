@@ -1,8 +1,10 @@
 <template>
   <div class="navbar">
     <hamburger class="hamburger-container"></hamburger>
-    <beadcrumb class="beadcrumb-container"></beadcrumb>
+    <beadcrumb id="guide-breadcrumb" class="beadcrumb-container"></beadcrumb>
     <div class="right-menu">
+      <guide class="right-menu-item hover-effect"></guide>
+
       <header-search class="right-menu-item hover-effect"></header-search>
       <screenfull class="right-menu-item hover-effect"></screenfull>
       <theme-select class="right-menu-item hover-effect"></theme-select>
@@ -45,7 +47,7 @@ import LangSelect from '@/components/lange-select'
 import ThemeSelect from '@/components/theme-select'
 import screenfull from '@/components/screenfull'
 import HeaderSearch from '@/components/header-search'
-
+import Guide from '@/components/guide'
 const store = useStore()
 const logout = () => {
   store.dispatch('user/logout')

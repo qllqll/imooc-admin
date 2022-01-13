@@ -1,5 +1,5 @@
 <template>
-  <div class="" @click="onToggle">
+  <div id="guide-full" class="" @click="onToggle">
     <svg-icon
       :icon="isFullscreen ? 'exit-fullscreen' : 'fullscreen'"
     ></svg-icon>

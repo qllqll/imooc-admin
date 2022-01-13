@@ -37,6 +37,27 @@ export default {
     changeTagsView(state, { index, tag }) {
       state.tagsViewList[index] = tag
       setItem(TAGS_VIEW, state.tagsViewList)
+    },
+
+    /**
+     * {type: 'other' || 'right' || 'index'}
+     */
+    removeTagsView(state, playload) {
+      if (playload.type === 'index') {
+        state.tagsViewList.splice(playload.index, 1)
+      } else if (playload.type === 'other') {
+        state.tagsViewList.splice(
+          playload.index + 1,
+          state.tagsViewList.length - playload.index + 1
+        )
+        state.tagsViewList.splice(0, playload.index)
+      } else if (playload.type === 'right') {
+        state.tagsViewList.splice(
+          playload.index + 1,
+          state.tagsViewList.length - playload.index + 1
+        )
+      }
+      setItem(TAGS_VIEW, state.tagsViewList)
     }
   }
 }

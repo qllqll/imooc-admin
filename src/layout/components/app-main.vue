@@ -1,22 +1,31 @@
 <template>
   <div class="app-main">
-    <router-view></router-view>
+    <!-- 带有切换动画，并且具备组件缓存 -->
+    <router-view v-slot="{ Component, route }">
+      <transition name="fade-transform" mode="out-in">
+        <!--        <keep-alive>-->
+        <component :is="Component" :key="route.path" />
+        <!--        </keep-alive>-->
+      </transition>
+    </router-view>
   </div>
 </template>
 
 <script setup>
 import { watch } from 'vue'
-import { useRoute } from 'vue-router'
 import { isTags } from '@/utils/tags'
-import { useStore } from 'vuex'
 import { generateTitle, watchSwitchLang } from '@/utils/i18n'
-
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+const route = useRoute()
+const store = useStore()
 /**
- * 生成title
+ * 生成 title
  */
 const getTitle = (route) => {
   let title = ''
   if (!route.meta) {
+    // 处理无 meta 的路由
     const pathArr = route.path.split('/')
     title = pathArr[pathArr.length - 1]
   } else {
@@ -24,29 +33,9 @@ const getTitle = (route) => {
   }
   return title
 }
-
-const store = useStore()
-const route = useRoute()
-watch(route, (to, from) => {
-  console.log(to.path)
-  if (!isTags(to.path)) return
-  const { fullPath, meta, name, params, path, query } = to
-  store.commit(
-    'app/addTagsViewList',
-    {
-      fullPath,
-      meta,
-      name,
-      params,
-      path,
-      query,
-      title: getTitle(to)
-    },
-    {
-      immediate: true
-    }
-  )
-})
+/**
+ * 国际化 tags
+ */
 watchSwitchLang(() => {
   store.getters.tagsViewList.forEach((route, index) => {
     store.commit('app/changeTagsView', {
@@ -58,15 +47,41 @@ watchSwitchLang(() => {
     })
   })
 })
+/**
+ * 监听路由变化
+ */
+watch(
+  route,
+  (to, from) => {
+    // 并不是所有的路由都需要保存的
+    if (!isTags(to.path)) return
+    const { fullPath, meta, name, params, path, query } = to
+    store.commit('app/addTagsViewList', {
+      fullPath,
+      meta,
+      name,
+      params,
+      path,
+      query,
+      title: getTitle(to)
+    })
+  },
+  {
+    immediate: true
+  }
+)
 </script>
 
 <style lang="scss" scoped>
 .app-main {
-  min-height: calc(100vh - 50px);
+  /* 浏览器可视区域的高度 100vh */
+  /* min-height: calc(100vh - 50px); */
+  min-height: calc(100vh - 50px - 43px);
   width: 100%;
   position: relative;
   overflow: hidden;
-  padding: 91px 20px 20px 20px;
+  /* padding: 61px 20px 20px 20px; */
+  padding: 104px 20px 20px 20px;
   box-sizing: border-box;
 }
 </style>
