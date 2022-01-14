@@ -3,9 +3,9 @@
     <!-- 带有切换动画，并且具备组件缓存 -->
     <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" mode="out-in">
-        <!--        <keep-alive>-->
-        <component :is="Component" :key="route.path" />
-        <!--        </keep-alive>-->
+        <keep-alive>
+          <component :is="Component" :key="route.path" />
+        </keep-alive>
       </transition>
     </router-view>
   </div>
