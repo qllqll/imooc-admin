@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="info">
-      {{ $t('profie.projectIntroduction') }}
+      {{ $t('profile.projectIntroduction') }}
     </div>
   </div>
 </template>
