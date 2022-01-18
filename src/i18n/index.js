@@ -2,12 +2,18 @@ import { createI18n } from 'vue-i18n'
 import zhLocale from './lang/zh'
 import enLocale from './lang/en'
 import store from '@/store'
+
+// 组件国际化
+import zhLang from 'element-plus/lib/locale/lang/zh-cn'
+import enLang from 'element-plus/lib/locale/lang/en'
 const messages = {
   en: {
-    ...enLocale
+    ...enLocale,
+    ...enLang
   },
   zh: {
-    ...zhLocale
+    ...zhLocale,
+    ...zhLang
   }
 }
 

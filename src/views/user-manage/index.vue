@@ -5,7 +5,9 @@
         <el-button type="primary" @click="importExcelClick">{{
           $t('excel.importExcel')
         }}</el-button>
-        <el-button type="success">{{ $t('excel.exportExcel') }}</el-button>
+        <el-button type="success" @click="onToExcelClick">{{
+          $t('excel.exportExcel')
+        }}</el-button>
       </div>
     </el-card>
     <!--    table-->
@@ -56,14 +58,17 @@
         </el-table-column>
         <!--   操作     -->
         <el-table-column :label="$t('excel.action')" fixed="right" width="300">
-          <template #default>
-            <el-button type="primary" size="mini">{{
-              $t('excel.show')
-            }}</el-button>
+          <template #default="{ row }">
+            <el-button
+              type="primary"
+              size="mini"
+              @click="onShowClick(row._id)"
+              >{{ $t('excel.show') }}</el-button
+            >
             <el-button type="info" size="mini">{{
               $t('excel.showRole')
             }}</el-button>
-            <el-button type="danger" size="mini">{{
+            <el-button type="danger" size="mini" @click="onRemoveClick(row)">{{
               $t('excel.remove')
             }}</el-button>
           </template>
@@ -80,20 +85,24 @@
         :total="total"
       ></el-pagination>
     </el-card>
+    <export-excel v-model="exportExcelVisible"></export-excel>
   </div>
 </template>
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { getUserManageList } from '@/api/user-manage'
+import { getUserManageList, deleteUser } from '@/api/user-manage'
 import { watchSwitchLang } from '@/utils/i18n'
 import { useRouter } from 'vue-router'
-
+import { useI18n } from 'vue-i18n'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import ExportExcel from './components/export-to-excel'
 // 数据相关
 const tableData = ref([])
 const total = ref(0)
 const page = ref(1)
 const size = ref(2)
+const router = useRouter()
 
 // 获取数据的方法
 const getListData = async () => {
@@ -118,10 +127,34 @@ const handleCurrentChange = (currentPage) => {
   getListData()
 }
 
+// 删除
+const i18n = useI18n()
+const onRemoveClick = (row) => {
+  ElMessageBox.confirm(
+    i18n.t('excel.dialogTitle1') + row.username + i18n.t('excel.dialogTitle2'),
+    {
+      type: 'warning'
+    }
+  ).then(async () => {
+    await deleteUser(row._id)
+    ElMessage.success(i18n.t('excel.removeSuccess'))
+    getListData()
+  })
+}
+// 查看用户详情
+const onShowClick = (id) => {
+  router.push(`/user/info/${id}`)
+}
+
 // 导入excel
-const router = useRouter()
 const importExcelClick = () => {
   router.push('/user/import')
+}
+
+// 导出
+const exportExcelVisible = ref(false)
+const onToExcelClick = () => {
+  exportExcelVisible.value = true
 }
 </script>
 

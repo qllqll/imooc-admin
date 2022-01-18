@@ -9,14 +9,16 @@ import '@/styles/index.scss'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+// 指令
+import installDirective from '@/directives'
 // 导入svgIcon
 import installIcons from '@/icons/svg/index.js'
 // 导入路由鉴权
 import './permission'
 // 全局属性
 import installFilter from '@/filters'
-
 const app = createApp(App)
 installIcons(app)
 installFilter(app)
+installDirective(app)
 app.use(store).use(router).use(ElementPlus).use(i18n).mount('#app')
