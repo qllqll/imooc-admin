@@ -77,9 +77,6 @@ const getUserRoles = async () => {
 watch(
   () => props.userId,
   (val, newVal) => {
-    console.log(val)
-    console.log(newVal)
-
     if (val) {
       getUserRoles()
     }
