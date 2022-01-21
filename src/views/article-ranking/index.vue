@@ -1,30 +1,30 @@
 <template>
   <div class="article-ranking-container">
+    <el-card class="header">
+      <div class="dynamic-box">
+        <span>{{ $t('article.dynamicTitle') }}</span>
+        <el-checkbox-group v-model="selectDynamicLabel">
+          <el-checkbox
+            v-for="(item, index) in dynamicData"
+            :label="item.label"
+            :key="index"
+            >{{ item.label }}</el-checkbox
+          >
+        </el-checkbox-group>
+      </div>
+    </el-card>
     <el-card>
       <el-table ref="tableRef" :data="tableData" border style="width: 100%">
         <el-table-column
-          :label="$t('article.ranking')"
-          prop="ranking"
-        ></el-table-column>
-        <el-table-column
-          :label="$t('article.title')"
-          prop="title"
-        ></el-table-column>
-        <el-table-column
-          :label="$t('article.author')"
-          prop="author"
-        ></el-table-column>
-        <el-table-column :label="$t('article.publicDate')">
-          <template #default="{ row }">
+          v-for="(item, index) in tableColumns"
+          :key="index"
+          :prop="item.prop"
+          :label="item.label"
+        >
+          <template v-if="item.prop === 'publicDate'" #default="{ row }">
             {{ $filters.relativeTime(row.publicDate) }}
           </template>
-        </el-table-column>
-        <el-table-column
-          :label="$t('article.desc')"
-          prop="desc"
-        ></el-table-column>
-        <el-table-column :label="$t('article.action')" prop="desc">
-          <template #default="{ row }">
+          <template v-else-if="item.prop === 'action'" #default="{ row }">
             <el-button type="primary" size="mini" @click="onShowClick(row)">{{
               $t('article.show')
             }}</el-button>
@@ -50,15 +50,19 @@
 </template>
 
 <script setup>
-import { ref, onActivated } from 'vue'
-import { getArticleList } from '@/api/article'
+import { ref, onActivated, onMounted } from 'vue'
+import { getArticleList, deleteArticle } from '@/api/article'
 import { watchSwitchLang } from '@/utils/i18n'
+import { dynamicData, selectDynamicLabel, tableColumns } from './dynaminc/index'
+import { tableRef, initSortable } from './sortable'
+import { ElMessageBox, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 // 数据相关
 const tableData = ref([])
 const page = ref(1)
 const size = ref(10)
 const total = ref(0)
-const tableRef = ref(null)
 
 const getListData = async () => {
   const result = await getArticleList({
@@ -73,6 +77,11 @@ getListData()
 watchSwitchLang(getListData)
 onActivated(getListData)
 
+// 初始化sortable
+onMounted(() => {
+  initSortable(tableData, getListData)
+})
+
 // size改变
 const handleSizeChange = (currentSize) => {
   size.value = currentSize
@@ -85,9 +94,24 @@ const handleCurrentChange = (CurrentPage) => {
   getListData()
 }
 // 点击查看
-const onShowClick = (row) => {}
+const router = useRouter()
+const onShowClick = (row) => {
+  router.push(`/article/${row._id}`)
+}
 // 点击删除
-const onRemoveClick = (row) => {}
+const i18n = useI18n()
+const onRemoveClick = (row) => {
+  ElMessageBox.confirm(
+    i18n.t('article.dialogTitle1') + row.title + i18n.t('article.dialogTitle2'),
+    {
+      type: 'warning'
+    }
+  ).then(async () => {
+    await deleteArticle(row._id)
+    ElMessage.success(i18n.t('article.removeSuccess'))
+    getListData()
+  })
+}
 </script>
 
 <style lang="scss" scoped>

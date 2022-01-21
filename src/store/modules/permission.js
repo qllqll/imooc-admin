@@ -25,8 +25,6 @@ export default {
       menus.forEach((key) => {
         routes.push(...privateRoutes.filter((item) => item.name === key))
       })
-      console.log(routes)
-
       //  所以不匹配的路由 全部进入404的路由配置
       // 注意：该配置必须要在所有路由指定之后
       routes.push({
