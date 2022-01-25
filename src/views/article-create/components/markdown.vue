@@ -69,13 +69,15 @@ const onSubmitClick = async () => {
       content: mkEditor.getHTML()
     })
   } else {
+    console.log(mkEditor.getHTML())
+    debugger
     await commitArticle({
       title: props.title,
       content: mkEditor.getHTML()
     })
-    mkEditor.reset()
-    emits('onSuccess')
   }
+  mkEditor.reset()
+  emits('onSuccess')
 }
 // 编辑相关
 watch(

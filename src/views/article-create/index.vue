@@ -17,7 +17,11 @@
           ></markdown>
         </el-tab-pane>
         <el-tab-pane :label="$t('article.richText')" name="richText">
-          <editor></editor>
+          <editor
+            :title="title"
+            :detail="detail"
+            @onSuccess="onSuccess"
+          ></editor>
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -25,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onActivated, ref } from 'vue'
 import Editor from './components/editor'
 import Markdown from './components/markdown'
 import { useRoute } from 'vue-router'
@@ -39,10 +43,9 @@ const getArticleDetail = async () => {
   title.value = detail.value.title
 }
 
-console.log('-----' + articleId)
 if (articleId) {
-  debugger
   getArticleDetail()
+  onActivated(getArticleDetail)
 }
 const title = ref('')
 const activeName = ref('markdown')

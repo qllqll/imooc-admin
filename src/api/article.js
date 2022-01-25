@@ -45,7 +45,8 @@ export const articleDetail = (articleId) => {
 export const articleCreate = (data) => {
   return request({
     url: '/article/create',
-    method: 'POST'
+    method: 'POST',
+    data
   })
 }
 
